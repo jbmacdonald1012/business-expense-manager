@@ -7,15 +7,17 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
     "start": "node dist/server.js",
-    "build": "tsc"
+    "build": "tsc",
+    "swagger-autogen": "ts-node swagger.ts"
   },
   "author": "Jason Macdonald",
   "license": "ISC",
   "dependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
+    "@types/mongodb": "^4.0.7",
     "@types/node": "^22.14.0",
     "@types/swagger-ui-express": "^4.1.8",
     "cors": "^2.8.5",
@@ -23,9 +25,11 @@
     "express": "^5.1.0",
     "express-openid-connect": "^2.18.0",
     "express-validator": "^7.2.1",
+    "mongodb": "^6.15.0",
     "mongoose": "^8.13.2",
     "swagger-autogen": "^2.23.7",
     "swagger-ui-express": "^5.0.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
   "devDependencies": {
