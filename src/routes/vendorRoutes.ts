@@ -1,12 +1,13 @@
 ﻿import { Router } from 'express';
-import { getAllVendors, getVendorById, createVendor, updateVendor, deleteVendor } from '../controllers/vendorController';
+import * as vendorController from '../controllers/vendorController';
+import {validateVendor, vendorValidationRules} from "../validators/vendorValidator";
 
 const router = Router();
 
-router.get('/', getAllVendors);
-router.get('/:id', getVendorById);
-router.post('/', createVendor);
-router.put('/:id', updateVendor);
-router.delete('/:id', deleteVendor);
+router.get('/', vendorController.getAllVendors);
+router.get('/:id', vendorController.getVendorById);
+router.post('/', vendorValidationRules(), validateVendor, vendorController.createVendor);
+router.put('/:id', vendorValidationRules(), validateVendor, vendorController.updateVendor);
+router.delete('/:id', vendorController.deleteVendor);
 
 export default router;

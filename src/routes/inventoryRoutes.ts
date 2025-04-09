@@ -1,12 +1,13 @@
 ﻿import { Router } from 'express';
-import { getAllInventory, getInventoryById, createInventory, updateInventory, deleteInventory } from '../controllers/inventoryController';
+import * as inventoryController from '../controllers/inventoryController';
+import { inventoryValidationRules, validateInventory } from "../validators/inventoryValidator";
 
 const router = Router();
 
-router.get('/', getAllInventory);
-router.get('/:id', getInventoryById);
-router.post('/', createInventory);
-router.put('/:id', updateInventory);
-router.delete('/:id', deleteInventory);
+router.get('/', inventoryController.getAllInventory);
+router.get('/:id', inventoryController.getInventoryById);
+router.post('/', inventoryValidationRules(), validateInventory, inventoryController.createInventory);
+router.put('/:id', inventoryValidationRules(), validateInventory, inventoryController.updateInventory);
+router.delete('/:id', inventoryController.deleteInventory);
 
 export default router;

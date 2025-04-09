@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import routes from './routes/index';
 import swaggerUi from 'swagger-ui-express';
-// import swaggerDocument from '../';
+import swaggerDocument from '../swagger.json';
 import { auth } from 'express-openid-connect';
 import { errorHandler } from './middleware/errorHandler';
 
@@ -29,7 +29,7 @@ app
         res.redirect('/api-docs');
     })
     .use(errorHandler)
-    // .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+    .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
     .use((error: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
         console.error(error);
         res.status(500).json({ message: 'Oops. Something went wrong' });

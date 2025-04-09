@@ -1,19 +1,15 @@
 ﻿import {Router} from 'express';
-import {
-    createEmployee,
-    deleteEmployee,
-    getAllEmployees,
-    getEmployeeById,
-    updateEmployee
-} from "../controllers/employeeController";
+import * as employeeController from "../controllers/employeeController";
+
+import { employeeValidationRules, validateEmployee } from "../validators/employeeValidator";
 
 const router = Router();
 
-router.get('/', getAllEmployees);
-router.get('/:id', getEmployeeById);
-router.post('/', createEmployee);
-router.put('/:id', updateEmployee);
-router.delete('/:id', deleteEmployee);
+router.get('/',  employeeController.getAllEmployees);
+router.get('/:id', employeeController.getEmployeeById);
+router.post('/', employeeValidationRules(), validateEmployee, employeeController.createEmployee);
+router.put('/:id', employeeValidationRules(), validateEmployee, employeeController.updateEmployee);
+router.delete('/:id', employeeController.deleteEmployee);
 
 export default router;
 

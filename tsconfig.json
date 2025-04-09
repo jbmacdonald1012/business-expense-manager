@@ -5,9 +5,10 @@
     "module": "CommonJS",
     "outDir": "./dist",
     "strict": true,
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "tests/**/*", "*.ts"],
 }
