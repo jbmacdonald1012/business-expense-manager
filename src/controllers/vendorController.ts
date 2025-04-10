@@ -1,11 +1,11 @@
 ﻿import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { ObjectId } from 'mongodb';
-import { connectToDatabase } from '../config/db';
+import { getDb } from '../config/db';
 import {IVendor} from "../models/Vendor";
 
 export const getAllVendors = async (req: Request, res: Response) => {
     try {
-        const db = await connectToDatabase();
+        const db = getDb();
         const vendors = await db.collection<IVendor>('Vendors').find({}).toArray();
         res.status(200).json(vendors);
     } catch (error) {
@@ -15,7 +15,7 @@ export const getAllVendors = async (req: Request, res: Response) => {
 export const getVendorById = async (req: Request, res: Response) => {
     const vendorId = req.params.id;
     try {
-        const db = await connectToDatabase();
+        const db = getDb();
         const vendor = await db.collection<IVendor>('Vendors').findOne({ _id: new ObjectId(vendorId) });
         if (vendor) {
             res.status(200).json(vendor);
@@ -38,7 +38,7 @@ export const createVendor = async (req: Request, res: Response) => {
             contactPerson
         }
 
-        const db = await connectToDatabase();
+        const db = getDb();
         const result = await db.collection<IVendor>('Vendors').insertOne(newVendor);
         res.status(201).json({ message: 'Vendor created successfully', vendorId: result.insertedId });
     }
@@ -59,7 +59,7 @@ export const updateVendor = async (req: Request, res: Response) => {
         }
 
 
-        const db = await connectToDatabase();
+        const db = getDb();
 
         const result = await db.collection<IVendor>('Vendors').updateOne(
             { _id: new ObjectId(req.params.id) },
@@ -77,7 +77,7 @@ export const updateVendor = async (req: Request, res: Response) => {
 };
 export const deleteVendor = async (req: Request, res: Response) => {
     try {
-        const db = await connectToDatabase();
+        const db = getDb();
         const result = await db.collection<IVendor>('Vendors').deleteOne({ _id: new ObjectId(req.params.id) });
 
         if (result.deletedCount > 0) {

@@ -10,5 +10,10 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*", "tests/**/*", "*.ts"],
+  "include": [
+    "src/**/*",
+    "tests/**/*",
+    "*.ts",
+    "node_modules/@types/jest/index.d.ts"
+  ]
 }

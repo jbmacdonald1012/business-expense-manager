@@ -1,6 +1,6 @@
+process.env.NODE_ENV === 'production' ? dotenv.config() : dotenv.config({ path: './local.env' });
 import dotenv from 'dotenv';
 
-process.env.NODE_ENV === 'production' ? dotenv.config() : dotenv.config({ path: './local.env' });
 
 dotenv.config();
 

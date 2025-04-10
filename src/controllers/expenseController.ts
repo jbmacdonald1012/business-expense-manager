@@ -1,11 +1,11 @@
 ﻿import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { ObjectId } from 'mongodb';
-import { connectToDatabase } from '../config/db';
+import { getDb } from '../config/db';
 import {IExpense} from "../models/Expense";
 
 export const getAllExpenses = async (req: Request, res: Response) => {
     try {
-        const db = await connectToDatabase();
+        const db = getDb();
         const expenses = await db.collection<IExpense>('Expense').find().toArray();
         res.status(200).json(expenses);
     } catch (error) {
@@ -14,7 +14,7 @@ export const getAllExpenses = async (req: Request, res: Response) => {
 };
 export const getExpenseById = async (req: Request, res: Response) => {
     try {
-        const db = await connectToDatabase();
+        const db = getDb();
         const expense = await db.collection<IExpense>('Expense').findOne({ _id: new ObjectId(req.params.id) });
         if (!expense) {
             res.status(404).json({ message: 'Expense not found' });
@@ -26,7 +26,7 @@ export const getExpenseById = async (req: Request, res: Response) => {
 };
 export const createExpense = async (req: Request, res: Response) => {
     try {
-        const db = await connectToDatabase();
+        const db = getDb();
         const { employeeName, vendor, description, amount, dateOfExpense, submissionDate, status, notes} = req.body;
 
         const newExpense: IExpense = {
@@ -50,7 +50,7 @@ export const createExpense = async (req: Request, res: Response) => {
 };
 export const updateExpense = async (req: Request, res: Response) => {
     try {
-        const db = await connectToDatabase();
+        const db = getDb();
         const { employeeName, vendor, description, amount, dateOfExpense, submissionDate, status, notes } = req.body;
 
         const updatedExpense: Partial<IExpense> = {
@@ -80,7 +80,7 @@ export const updateExpense = async (req: Request, res: Response) => {
 };
 export const deleteExpense = async (req: Request, res: Response) => {
     try {
-        const db = await connectToDatabase();
+        const db = getDb();
         const result = await db.collection<IExpense>('Expense').deleteOne({ _id: new ObjectId(req.params.id) });
 
         if (result.deletedCount === 0) {

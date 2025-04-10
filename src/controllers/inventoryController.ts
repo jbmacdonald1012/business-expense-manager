@@ -1,12 +1,12 @@
 ﻿import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { ObjectId } from 'mongodb';
-import { connectToDatabase } from '../config/db';
+import { getDb } from '../config/db';
 import {IInventory} from "../models/Inventory";
 
 
 export const getAllInventory = async (req: Request, res: Response) => {
     try {
-        const db = await connectToDatabase();
+        const db = getDb();
         const inventoryCollection = db.collection('Inventory');
         const inventoryItems = await inventoryCollection.find({}).toArray();
         res.status(200).json(inventoryItems);
@@ -16,7 +16,7 @@ export const getAllInventory = async (req: Request, res: Response) => {
 };
 export const getInventoryById = async (req: Request, res: Response) => {
     try {
-        const db = await connectToDatabase();
+        const db = getDb();
         const inventoryCollection = db.collection('Inventory');
         const inventoryItem = await inventoryCollection.findOne({ _id: new ObjectId(req.params.id) });
         if (!inventoryItem) {
@@ -29,7 +29,7 @@ export const getInventoryById = async (req: Request, res: Response) => {
 };
 export const createInventory = async (req: Request, res: Response) => {
     try{
-        const db = await connectToDatabase();
+        const db = getDb();
         const { product, description, pricePerUnit, quantity } = req.body;
 
         const newInventoryItem: IInventory = {
@@ -49,7 +49,7 @@ export const createInventory = async (req: Request, res: Response) => {
 };
 export const updateInventory = async (req: Request, res: Response) => {
     try {
-        const db = await connectToDatabase();
+        const db = getDb();
         const { product, description, pricePerUnit, quantity } = req.body;
 
         const updatedInventoryItem: Partial<IInventory> = {
@@ -75,7 +75,7 @@ export const updateInventory = async (req: Request, res: Response) => {
 };
 export const deleteInventory = async (req: Request, res: Response) => {
     try {
-        const db = await connectToDatabase();
+        const db = getDb();
         const result = await db.collection<IInventory>('Inventory').deleteOne({ _id: new ObjectId(req.params.id) });
 
         if (result.deletedCount === 0) {
